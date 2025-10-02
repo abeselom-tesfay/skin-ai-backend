@@ -1,9 +1,7 @@
-Flask==2.3.2
-flask-cors==3.0.10
-tensorflow==2.20.0
-numpy==1.24.4
-Pillow==10.1.0
-opencv-python-headless==4.8.1.78
+Flask==3.0.3
+flask-cors==6.0.1
+tensorflow==2.19.0
+numpy==1.26.4
+Pillow==10.4.0
+opencv-python==4.11.0.86
 gunicorn==21.2.0
-setuptools>=67.7.2
-wheel>=0.41.2

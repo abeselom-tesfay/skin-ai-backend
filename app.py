@@ -51,7 +51,7 @@ def predict():
 
     try:
         # Preprocess image
-        image = Image.open(io.BytesIO(file.read())).convert('RGB')
+        image = Image.open(io.BytesIO(file.read())).convert('RGB')  # ensure RGB
         
         # Enhanced human skin validation
         skin_check = validate_human_skin(image)
@@ -63,13 +63,21 @@ def predict():
                 'confidence': skin_check['skin_confidence']
             }), 400
         
-        image = image.resize((224, 224))
-        image_array = np.array(image) / 255.0
+        image = image.resize((224, 224))  # model input size
+        image_array = np.array(image)
+        
+        # Fix: ensure shape is (224, 224, 3)
+        if image_array.ndim == 2:  # grayscale
+            image_array = np.stack([image_array]*3, axis=-1)
+        elif image_array.shape[2] == 1:
+            image_array = np.concatenate([image_array]*3, axis=-1)
+        
+        image_array = image_array / 255.0
         image_array = np.expand_dims(image_array, axis=0)
         
         # Predict
         predictions = model.predict(image_array, verbose=0)
-        predicted_class = np.argmax(predictions[0])
+        predicted_class = int(np.argmax(predictions[0]))
         confidence = float(np.max(predictions[0]))
         
         return jsonify({

@@ -1,7 +1,7 @@
 Flask==3.0.3
 flask-cors==6.0.1
 tensorflow==2.20.0
-numpy==1.26.4
+numpy       # no version specified
 Pillow==10.4.0
 opencv-python==4.11.0.86
 gunicorn==21.2.0
